@@ -211,3 +211,13 @@ with center:
             Small KPI improvements can compound into large results across a full year.
             """
         )
+        st.subheader("About")
+        st.markdown("""
+        **Creator:** Jesper Malmgren  
+        **Course:** DD2257 - Visualization, KTH  
+        **Date:** 2025  
+
+        *This tool was developed as part of an academic project exploring how visualization can be used to make business KPIs more tangible and engaging.*  
+        *All data and calculations are illustrative and should not be interpreted as real business results.*
+        """)
+        
