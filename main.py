@@ -22,9 +22,9 @@ with left_header:
 
     These three KPIs form the foundation of store performance:
 
-    **Hitrate** – the share of visitors who make a purchase *(paying customers / total visitors)*  
-    **Products per customer (PPK)** – the average number of products sold per transaction *(total products sold / paying customers)*  
-    **Average purchase value** – the average spend per transaction *(total sales / number of receipts)*  
+    **Hitrate** - the share of visitors who make a purchase *(paying customers / total visitors)*  
+    **Products per customer (PPK)** - the average number of products sold per transaction *(total products sold / paying customers)*  
+    **Average purchase value** - the average spend per transaction *(total sales / number of receipts)*  
 
     Increasing the hitrate by just 1% may sound small, but the impact over a full year can be significant.  
     This tool visualizes how small changes in these key KPIs can ripple through your store’s results,  
@@ -67,7 +67,7 @@ with left_col:
 
     average_purchase_value = st.number_input( # Average spend per receipt.
         "Average purchase per transaction (SEK)",
-        min_value=0.0, max_value=2_000.0, value=500.0, step=10.0,
+        min_value=0.0, max_value=1_0000.0, value=500.0, step=10.0,
         help="Average spend per receipt."
     )
 
@@ -94,7 +94,7 @@ with left_col:
 
     hitrate_change_pp = st.number_input(
         "Change in hitrate (percentage points)",
-        -5.0, 10.0, 0.0,
+        -10.0, (100.0-hitrate), 0.0,
         key=f"hitrate_slider_{st.session_state.reset_counter}",
         help="Additive change in hitrate in percentage points. Example: from 20.0% to 21.0% is +1.0 p.p."
     )
