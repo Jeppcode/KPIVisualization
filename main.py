@@ -16,17 +16,22 @@ left_header, right_header = st.columns([0.8, 0.2], gap="large")
 with left_header:
     st.subheader("See how small improvements in KPI can add up to big results")
     st.markdown("""
-    In retail, there are countless ways to improve sales and profitability — some complex, others simple.  
-    One of the easiest places to start is by engaging your team around three simple yet powerful KPIs:
+    In retail, there are countless ways to improve sales and profitability - some complex, others simple.  
+    One of the easiest places to start is by engaging your team around three simple yet powerful **Key Performance Indicators (KPIs)** -  
+    measurable values that show how effectively a business is achieving its goals.  
+
+    These three KPIs form the foundation of store performance:
 
     **Hitrate** – the share of visitors who make a purchase *(paying customers / total visitors)*  
     **Products per customer (PPK)** – the average number of products sold per transaction *(total products sold / paying customers)*  
     **Average purchase value** – the average spend per transaction *(total sales / number of receipts)*  
 
-    Increasing the hitrate by just 1% may sound small but the impact over a full year can be significant.  
+    Increasing the hitrate by just 1% may sound small, but the impact over a full year can be significant.  
     This tool visualizes how small changes in these key KPIs can ripple through your store’s results,  
     helping your team understand how every interaction contributes to long-term success.
     """)
+
+
     
 with right_header:
         st.subheader("About")
