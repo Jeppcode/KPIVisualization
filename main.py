@@ -94,7 +94,7 @@ with left_col:
 
     hitrate_change_pp = st.number_input(
         "Change in hitrate (percentage points)",
-        -10.0, (100.0-hitrate), 0.0,
+        -10.0, (100.0-hitrate), 0.0, 0.1,
         key=f"hitrate_slider_{st.session_state.reset_counter}",
         help="Additive change in hitrate in percentage points. Example: from 20.0% to 21.0% is +1.0 p.p."
     )
