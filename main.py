@@ -7,27 +7,42 @@ st.set_page_config(
     page_title="Waves of Change: The Ripple Effect of Store KPIs",
     page_icon=":key:",
     layout="wide"
-)
+    )
 
 st.title("Waves of Change: Explore the Ripple Effect of Store KPIs")
-st.subheader("See how small improvements in KPI can add up to big results")
-st.markdown("""
-In retail, there are countless ways to improve sales and profitability — some complex, others simple.  
-One of the easiest places to start is by engaging your team around three simple yet powerful KPIs:
 
-**Hitrate** – the share of visitors who make a purchase *(paying customers / total visitors)*  
-**Products per customer (PPK)** – the average number of products sold per transaction *(total products sold / paying customers)*  
-**Average purchase value** – the average spend per transaction *(total sales / number of receipts)*  
+# Introduction and about
+left_header, right_header = st.columns([0.8, 0.2], gap="large")
+with left_header:
+    st.subheader("See how small improvements in KPI can add up to big results")
+    st.markdown("""
+    In retail, there are countless ways to improve sales and profitability — some complex, others simple.  
+    One of the easiest places to start is by engaging your team around three simple yet powerful KPIs:
 
-Increasing the hitrate by just 1% may sound small but the impact over a full year can be significant.  
-This tool visualizes how small changes in these key KPIs can ripple through your store’s results,  
-helping your team understand how every interaction contributes to long-term success.
-""")
+    **Hitrate** – the share of visitors who make a purchase *(paying customers / total visitors)*  
+    **Products per customer (PPK)** – the average number of products sold per transaction *(total products sold / paying customers)*  
+    **Average purchase value** – the average spend per transaction *(total sales / number of receipts)*  
 
+    Increasing the hitrate by just 1% may sound small but the impact over a full year can be significant.  
+    This tool visualizes how small changes in these key KPIs can ripple through your store’s results,  
+    helping your team understand how every interaction contributes to long-term success.
+    """)
+    
+with right_header:
+        st.subheader("About")
+        st.markdown("""
+        **Creator:** Jesper Malmgren  
+        **Course:** DD2257 - Visualization, KTH  
+        **Date:** 2025  
+
+        *This tool was developed as part of an academic project exploring how visualization can be used to make business KPIs more tangible and engaging.*  
+        *All data and calculations are illustrative and should not be interpreted as real business results.*
+        """)
+    
 st.markdown("---")
 
-# Layout: three columns. Left for inputs, center for results, right for insight
-left_col, center, right_col = st.columns([0.36, 0.44, 0.20], gap="large")
+# Layout: Two columns. Left for inputs, right for results
+left_col, right_col = st.columns([0.4, 0.6], gap="large")
 
 with left_col:
     # Base KPI inputs
@@ -72,21 +87,21 @@ with left_col:
     if 'reset_counter' not in st.session_state:
         st.session_state.reset_counter = 0
 
-    hitrate_change_pp = st.slider(
+    hitrate_change_pp = st.number_input(
         "Change in hitrate (percentage points)",
         -5.0, 10.0, 0.0,
         key=f"hitrate_slider_{st.session_state.reset_counter}",
         help="Additive change in hitrate in percentage points. Example: from 20.0% to 21.0% is +1.0 p.p."
     )
 
-    average_purchase_change_sek = st.slider(
+    average_purchase_change_sek = st.number_input(
         "Change in average purchase (SEK)",
         -(average_purchase_value), (average_purchase_value), 0.0, 1.0,
         key=f"purchase_slider_{st.session_state.reset_counter}",
         help="Additive change in SEK. Example: +20 SEK turns 500 SEK into 520 SEK."
     )
 
-    products_per_customer_change = st.slider(
+    products_per_customer_change = st.number_input(
         "Change in products per customer",
         -(products_per_customer), 2.0, 0.0, 0.01,
         key=f"products_slider_{st.session_state.reset_counter}",
@@ -138,7 +153,7 @@ data["Change (%)"] = data.apply(
     axis=1
 )
 
-with center:
+with right_col:
     st.header("Results")
 
     m1, m2, m3, m4 = st.columns(4) # Metrics for each KPI.
@@ -152,7 +167,7 @@ with center:
         data.style.format({
             "Base": "{:,.0f}",
             "Scenario": "{:,.0f}",
-            "Change": "{:,.0f}",
+            "Change (Value)": "{:,.1f}",
             "Change (%)": "{:+.1f}%"
         }),
         use_container_width=True,
@@ -178,7 +193,7 @@ with center:
         .encode(
             x=alt.X("KPI:N", sort=None, title="Key Performance Indicator"),
             y=alt.Y("Change (%):Q", title="Percentage Change (%)",
-                    scale=alt.Scale(domain=[ymin, ymax], nice=False)),
+                    scale=alt.Scale(domain=[ymin, ymax], nice=True)),
             color=alt.condition(
                 alt.datum["Change (%)"] < 0,
                 alt.value("#e45755"),  # Negative change
@@ -193,31 +208,34 @@ with center:
             ]
         )
         .properties(height=500)
+        .mark_bar(width=50)
     )
 
     st.altair_chart(chart + zero_line, use_container_width=True)
-    st.markdown("---")
-    with right_col:
-    # Short insight
-        st.subheader("Insight")
-        st.write(
-            f"""
-            With these adjustments: hitrate {hitrate:.1f}% → {hitrate + hitrate_change_pp:.1f}% 
-            ({hitrate_change_pp:+.1f} p.p.), average purchase {average_purchase_value + average_purchase_change_sek:.1f} SEK 
-            ({average_purchase_change_sek:+.1f} SEK), and products per customer {products_per_customer + products_per_customer_change:.2f} 
-            ({products_per_customer_change:+.2f}),
-            yearly profit changes by **{data.loc[3, 'Change (%)']:+.1f}%**.
+    
 
-            Small KPI improvements can compound into large results across a full year.
-            """
-        )
-        st.subheader("About")
-        st.markdown("""
-        **Creator:** Jesper Malmgren  
-        **Course:** DD2257 - Visualization, KTH  
-        **Date:** 2025  
+    st.markdown(
+    f"""
+    <div style="
+        background-color:#f7f7f8;
+        border:1px solid #ddd;
+        border-radius:10px;
+        padding:1.2rem 1.5rem;
+        margin-top:1rem;
+    ">
+    <h4 style="margin-top:0;">Insight</h4>
+    <p><b>Hitrate:</b> {hitrate:.1f}% → {hitrate + hitrate_change_pp:.1f}%  ({hitrate_change_pp:+.1f} p.p.)<br>
+    <b>Average purchase:</b> {average_purchase_value:.1f} → {average_purchase_value + average_purchase_change_sek:.1f} SEK ({average_purchase_change_sek:+.1f} SEK)<br>
+    <b>Products per customer:</b> {products_per_customer:.2f} → {products_per_customer + products_per_customer_change:.2f} ({products_per_customer_change:+.2f})</p>
 
-        *This tool was developed as part of an academic project exploring how visualization can be used to make business KPIs more tangible and engaging.*  
-        *All data and calculations are illustrative and should not be interpreted as real business results.*
-        """)
+    <p><b>Yearly profit change:</b> <span style="font-size:1.1rem;">{data.loc[3, 'Change (%)']:+.1f}%</span></p>
+
+    <p style="font-style:italic; color:#555;">Small KPI improvements can compound into large results across a full year.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
         
