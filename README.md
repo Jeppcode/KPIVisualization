@@ -18,6 +18,9 @@ Interactive Streamlit app that demonstrates how small changes in key store KPIs 
 - **Products sold** = purchases × products per customer  
 - **Profit** = revenue × profit margin
 
+## Public URL
+https://kpiimpact.streamlit.app/
+
 ## Quick start
 ```bash
 pip install streamlit pandas altair
